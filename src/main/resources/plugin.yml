@@ -1,0 +1,21 @@
+name: petakUmpet
+version: '${version}'
+
+main: yt.corazonid.petakUmpet.PetakUmpet
+api-version: '1.21.11'
+commands:
+  regis:
+    description: Daftarin peserta.
+  unregis:
+    description: Hapus peserta.
+  listplayer:
+    description: Liat peserta yang terdaftar.
+  gacha:
+    description: Menentukan hunter ronde ini.
+  start:
+    description: Memulai ronde petak umpet.
+  endgame:
+    description: Mengakhiri game dan menampilkan skor akhir.
+  listscore:
+    description: Menampilkan papan skor saat ini.
+load: POSTWORLD

@@ -1,0 +1,37 @@
+package yt.corazonid.petakUmpet;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public final class PetakUmpet extends JavaPlugin {
+    private GameManager gameManager;
+    private QuizManager quizManager;
+
+    @Override
+    public void onEnable() {
+        this.gameManager = new GameManager();
+        this.quizManager = new QuizManager();
+
+        // Register Commands (dari step sebelumnya)
+        getCommand("regis").setExecutor(new AdminCommands(this));
+        getCommand("unregis").setExecutor(new AdminCommands(this));
+        getCommand("listplayer").setExecutor(new AdminCommands(this));
+        getCommand("gacha").setExecutor(new GameCommands(this));
+        getCommand("start").setExecutor(new GameCommands(this));
+        getCommand("endgame").setExecutor(new AdminCommands(this));
+        getCommand("listscore").setExecutor(new AdminCommands(this));
+
+        // REGISTER LISTENERS
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        getServer().getPluginManager().registerEvents(new GameListener(this), this);
+
+        getLogger().info("PetakUmpet Cerdas Cermat Enabled!");
+    }
+
+    public GameManager getGameManager() { return gameManager; }
+    public QuizManager getQuizManager() { return quizManager; }
+
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+    }
+}
