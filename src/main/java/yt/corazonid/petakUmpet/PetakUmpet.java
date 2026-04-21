@@ -17,8 +17,9 @@ public final class PetakUmpet extends JavaPlugin {
         getCommand("listplayer").setExecutor(new AdminCommands(this));
         getCommand("gacha").setExecutor(new GameCommands(this));
         getCommand("start").setExecutor(new GameCommands(this));
-        getCommand("endgame").setExecutor(new AdminCommands(this));
-        getCommand("listscore").setExecutor(new AdminCommands(this));
+        if (getCommand("resetgame") != null) getCommand("resetgame").setExecutor(new AdminCommands(this));
+        if (getCommand("endgame") != null) getCommand("endgame").setExecutor(new AdminCommands(this));
+        if (getCommand("listscore") != null) getCommand("listscore").setExecutor(new AdminCommands(this));
 
         // REGISTER LISTENERS
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);

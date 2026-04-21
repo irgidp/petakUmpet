@@ -39,21 +39,30 @@ public class GameLoopTask extends BukkitRunnable {
 
         Bukkit.broadcastMessage("§b§l[KUIS] §fPertanyaan: §e" + question);
 
-        // Simpan pertanyaan aktif untuk dicek di ChatListener
         for (Player p : gm.getParticipants()) {
-            if (p.equals(gm.getHunter())) continue; // Hunter gak perlu jawab
+            if (p.equals(gm.getHunter())) continue;
             qm.setActiveQuestion(p, question);
-            p.sendMessage("§7§oJawab di chat dalam 10 detik!");
         }
 
-        // Tunggu 10 detik lalu eksekusi hukuman bagi yang belum jawab/salah
+        // Countdown 10 detik visual
         new BukkitRunnable() {
+            int timeLeft = 10;
             @Override
             public void run() {
-                int menitKe = (300 - totalSeconds) / 60;
-                executePunishments(menitKe);
+                if (timeLeft > 0 && gm.isGameRunning()) {
+                    for (Player p : gm.getParticipants()) {
+                        if (qm.hasActiveQuestion(p)) {
+                            p.sendTitle("§c§l" + timeLeft, "§fCepat jawab di chat!", 0, 21, 0);
+                            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.5f);
+                        }
+                    }
+                    timeLeft--;
+                } else {
+                    this.cancel();
+                    executePunishments((300 - totalSeconds) / 60);
+                }
             }
-        }.runTaskLater(plugin, 200L); // 10 Detik
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     private void executePunishments(int menit) {

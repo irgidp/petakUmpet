@@ -72,6 +72,13 @@ public class AdminCommands implements CommandExecutor {
             showLeaderboard();
         }
 
+        // Tambahkan di dalam onCommand AdminCommands
+        else if (label.equalsIgnoreCase("resetgame")) {
+            if (!sender.isOp()) return true;
+            gm.resetGameData();
+            sender.sendMessage("§a§lRESET! §fSemua skor dan sejarah Hunter telah dihapus.");
+        }
+
         return true;
     }
     // Buat method ini di dalam AdminCommands.java

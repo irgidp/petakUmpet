@@ -47,15 +47,20 @@ public class GameManager {
 
     public int getNextDeathPenalty() {
         deadCount++;
-        return switch (deadCount) {
-            case 1 -> -5;
-            case 2 -> -4;
-            case 3 -> -3;
-            case 4 -> -2;
-            case 5 -> -1;
-            default -> 0;
-        };
+        // Logic dinamis: Penalty mulai dari -(Jumlah Peserta - 1)
+        // Misal peserta 6 (5 hider), maka penalti pertama adalah -5, lalu -4, dst.
+        int hiderCount = participants.size() - 1;
+        int penalty = -(hiderCount - (deadCount - 1));
+        return (penalty < -1) ? penalty : -1;
     }
 
     public Set<UUID> getPastHunters() { return pastHunters; }
+
+    public void resetGameData() {
+        pastHunters.clear();
+        scores.clear();
+        deadCount = 0;
+        currentHunter = null;
+        gameRunning = false;
+    }
 }

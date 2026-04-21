@@ -18,4 +18,6 @@ commands:
     description: Mengakhiri game dan menampilkan skor akhir.
   listscore:
     description: Menampilkan papan skor saat ini.
+  resetgame:
+    description: Mereset semua data game.
 load: POSTWORLD
