@@ -1,7 +1,5 @@
 package yt.corazonid.petakUmpet;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -75,22 +73,40 @@ public class GameCommands implements CommandExecutor {
     private void startHidePhase() {
         GameManager gm = plugin.getGameManager();
         gm.setGameRunning(true);
+        Player hunter = gm.getHunter();
 
         new BukkitRunnable() {
             int count = 60;
             @Override
             public void run() {
                 if (count > 0) {
+                    // Kasih Blindness & Slowness tinggi (Freeze) ke Hunter
+                    if (hunter != null && hunter.isOnline()) {
+                        hunter.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 40, 0, false, false));
+                        hunter.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SLOWNESS, 40, 10, false, false));
+                        hunter.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+                                new net.md_5.bungee.api.chat.TextComponent("§c§lKAMU SEDANG DI-FREEZE! §f" + count + "s"));
+                    }
+
                     if (count <= 5) {
                         Bukkit.getOnlinePlayers().forEach(p -> {
                             p.sendTitle("§c" + count, "§fSiapkan diri!", 0, 21, 0);
-                            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1f, 1f);
+                            p.playSound(p.getLocation(), org.bukkit.Sound.BLOCK_NOTE_BLOCK_BIT, 1f, 1f);
                         });
                     }
-                    Bukkit.getOnlinePlayers().forEach(p -> p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§eWaktu Ngumpet: §f" + count + "s")));
+
+                    // Tampilkan Action Bar ke Hider
+                    Bukkit.getOnlinePlayers().forEach(p -> {
+                        if(!p.equals(hunter)) {
+                            p.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+                                    new net.md_5.bungee.api.chat.TextComponent("§eWaktu Ngumpet: §f" + count + "s"));
+                        }
+                    });
+
                     count--;
                 } else {
                     this.cancel();
+                    if (hunter != null) hunter.removePotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS);
                     Bukkit.broadcastMessage("§c§lHUNTER DILEPASKAN!");
                     new GameLoopTask(plugin).runTaskTimer(plugin, 0L, 20L);
                 }
