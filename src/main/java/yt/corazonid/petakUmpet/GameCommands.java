@@ -106,7 +106,11 @@ public class GameCommands implements CommandExecutor {
                     count--;
                 } else {
                     this.cancel();
-                    if (hunter != null) hunter.removePotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS);
+                    if (hunter != null) {
+                        hunter.removePotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS);
+                        // PANGGIL FUNGSI KASIH GEAR
+                        plugin.getGameListener().giveHunterGear(hunter);
+                    }
                     Bukkit.broadcastMessage("§c§lHUNTER DILEPASKAN!");
                     new GameLoopTask(plugin).runTaskTimer(plugin, 0L, 20L);
                 }
