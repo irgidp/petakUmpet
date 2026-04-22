@@ -3,8 +3,6 @@ package yt.corazonid.petakUmpet;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameLoopTask extends BukkitRunnable {
@@ -50,14 +48,14 @@ public class GameLoopTask extends BukkitRunnable {
             qm.setActiveQuestion(p, question);
         }
 
-        // Countdown 10 detik visual
-        new BukkitRunnable() {
+         new BukkitRunnable() {
             int timeLeft = 10;
             @Override
             public void run() {
                 if (timeLeft > 0 && gm.isGameRunning()) {
                     for (Player p : gm.getParticipants()) {
-                        if (qm.hasActiveQuestion(p)) {
+                        // FIX 4: Add online check before sending title
+                        if (p.isOnline() && qm.hasActiveQuestion(p)) {
                             p.sendTitle("§c§l" + timeLeft, "§fJawab cepat di chat!", 0, 21, 0);
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.5f);
                         }

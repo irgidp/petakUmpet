@@ -24,6 +24,11 @@ public class AdminCommands implements CommandExecutor {
 
         // --- COMMAND REGIS ---
         if (label.equalsIgnoreCase("regis")) {
+            // FIX 5: Prevent regis during game
+            if (gm.isGameRunning()) {
+                sender.sendMessage("§cTidak bisa regis saat game berlangsung!");
+                return true;
+            }
             if (args.length < 1) {
                 sender.sendMessage("§cGunakan: /regis <nama>");
                 return true;
@@ -39,6 +44,11 @@ public class AdminCommands implements CommandExecutor {
 
         // --- COMMAND UNREGIS ---
         else if (label.equalsIgnoreCase("unregis")) {
+            // FIX 5: Prevent unregis during game
+            if (gm.isGameRunning()) {
+                sender.sendMessage("§cTidak bisa unregis saat game berlangsung!");
+                return true;
+            }
             if (args.length < 1) {
                 sender.sendMessage("§cGunakan: /unregis <nama>");
                 return true;

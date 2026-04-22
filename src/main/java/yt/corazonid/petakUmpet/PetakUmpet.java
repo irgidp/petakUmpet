@@ -1,6 +1,7 @@
 package yt.corazonid.petakUmpet;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.entity.Player;
 
 public final class PetakUmpet extends JavaPlugin {
     private GameManager gameManager;
@@ -26,6 +27,13 @@ public final class PetakUmpet extends JavaPlugin {
 
         // REGISTER LISTENERS
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+
+        // FIX 1: Hide nametag semua player saat plugin enable
+        for (Player player : getServer().getOnlinePlayers()) {
+            for (Player other : getServer().getOnlinePlayers()) {
+                player.hidePlayer(this, other);
+            }
+        }
 
         getLogger().info("PetakUmpet Cerdas Cermat Enabled!");
     }

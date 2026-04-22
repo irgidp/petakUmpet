@@ -6,7 +6,7 @@
 
     <groupId>yt.corazonid</groupId>
     <artifactId>petakumpet</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-release</version>
     <packaging>jar</packaging>
 
     <name>petakumpet</name>
@@ -26,6 +26,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>

@@ -61,8 +61,18 @@ public class GameCommands implements CommandExecutor {
         }
 
         else if (label.equalsIgnoreCase("start")) {
+            // FIX 3: Prevent multiple starts
+            if (gm.isGameRunning()) {
+                sender.sendMessage("§cGame sudah berjalan!");
+                return true;
+            }
             if (gm.getHunter() == null) {
                 sender.sendMessage("§cGacha hunter dulu!");
+                return true;
+            }
+            // FIX 2: Check hunter is online
+            if (!gm.getHunter().isOnline()) {
+                sender.sendMessage("§cHunter offline! Tidak bisa start.");
                 return true;
             }
             startHidePhase();
